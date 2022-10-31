@@ -1,0 +1,32 @@
+# 本 Demo 中只编写了一个 application.yml 的配置文件
+# 通过三个横杠（---）来分隔开 3 种配置文件
+# 通过 spring.config.activate.on-profile 设置 profile 的名称
+
+# 通过以下配置项指定 profile 名称，设置所要启动的配置文件
+spring:
+  profiles:
+    active: pro
+---
+server:
+  port: 9091
+
+spring:
+  config:
+    activate:
+      on-profile: dev
+---
+server:
+  port: 9092
+
+spring:
+  config:
+    activate:
+      on-profile: test
+---
+server:
+  port: 9093
+
+spring:
+  config:
+    activate:
+      on-profile: pro
