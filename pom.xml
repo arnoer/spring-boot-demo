@@ -71,9 +71,7 @@
     <module>demo-flyway</module>
     <module>demo-pay</module>
     <module>demo-profile</module>
-    <module>suffix-prop</module>
-    <module>suffix-prop</module>
-      <module>profile-yml</module>
+    <module>demo-orm-mp</module>
   </modules>
   <packaging>pom</packaging>
 

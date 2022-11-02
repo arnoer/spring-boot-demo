@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.bravo.dao.DuplicateSampleOrderLogDao">
+
+    <insert id="batchSave">
+        insert into duplicate_sample_order_log(id, order_no, operation_type, date_time, user_id, remark)
+        select A.* from (
+        <foreach collection="logPos" item="item" index="index" separator="UNION ALL">
+            select
+            #{item.id,jdbcType=VARCHAR},
+            #{item.orderNo,jdbcType=VARCHAR},
+            #{item.operationType,jdbcType=DECIMAL},
+            #{item.dateTime,jdbcType=TIMESTAMP},
+            #{item.userId,jdbcType=VARCHAR},
+            #{item.remark,jdbcType=VARCHAR}
+            from dual
+        </foreach>
+        ) A
+    </insert>
+
+</mapper>

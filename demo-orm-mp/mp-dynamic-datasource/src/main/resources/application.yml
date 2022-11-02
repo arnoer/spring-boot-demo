@@ -1,0 +1,71 @@
+# Tomcat
+server:
+  tomcat:
+    uri-encoding: UTF-8
+  port: 7893
+  #context-path: /springboot
+
+
+# DataSource
+
+spring:
+  datasource:
+    name: druidDataSource
+    type: com.alibaba.druid.pool.DruidDataSource
+
+    #配置hikari连接池
+    #    hikari:
+    #      minimum-idle: 4
+    #      maximum-pool-size: 16
+    #      connection-timeout: 10000
+    #      idle-timeout: 30000
+    #      connection-init-sql: set names utf8mb4
+
+    # 配置动态数据源
+    dynamic:
+      # 默认数据源
+      primary: mysql
+      datasource:
+        mysql:
+          url: jdbc:mysql:///mp_demo?useUnicode=true&characterEncoding=utf-8&useSSL=false&allowMultiQueries=true&serverTimezone=UTC
+          username: root
+          password: root
+          driver-class-name: com.mysql.jdbc.Driver
+        #          druid:
+        #            filters: config,stat
+        oracle_1:
+          driver-class-name: oracle.jdbc.driver.OracleDriver
+          url: jdbc:oracle:thin:@10.21.64.30:1521:ORCL
+          username: MEORIENTB2B2_TEST
+          password: MEORIENTB2B2_TEST
+
+  main:
+    allow-bean-definition-overriding: true
+  profiles:
+    active: test
+
+logging:
+  level:
+    com.bravo.dao: debug
+
+#关于MyBatis-Plus的设置
+mybatis-plus:
+  # 别名扫描路径。这样Mapper.xml中的每个语句的resultType就不用写全路径了（但我还是习惯写全路径，尤其类很多的时候，不看路径不知道谁是谁）
+  type-aliases-package: com.bravo.demo.pojo
+
+  # Mapper.xml扫描路径。然后在Mapper接口写上自定义方法并关联XML语句，即可实现手写SQL  classpath*:mapper/**/*.xml  这里的mapper是指resource中的包名
+  mapper-locations: classpath*:com/bravo/dao/*.xml
+
+  configuration:
+    # MyBatis-Plus驼峰转换，配置后不论手写SQL还是接口方法，都能自动映射（默认on）
+    map-underscore-to-camel-case: true
+    # cache-enabled: true
+    # log-impl: org.apache.ibatis.logging.stdout.StdOutImpl
+
+  # 全局设置：主键生成策略、逻辑删除字段
+  global-config:
+    db-config:
+      id-type: auto
+      logic-delete-field: deleted
+      logic-delete-value: 1
+      logic-not-delete-value: 0
