@@ -70,8 +70,6 @@
     <module>demo-https</module>
     <module>demo-flyway</module>
     <module>demo-pay</module>
-    <module>demo-profile</module>
-    <module>demo-orm-mp</module>
   </modules>
   <packaging>pom</packaging>
 
