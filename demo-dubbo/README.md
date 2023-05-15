@@ -14,6 +14,12 @@
 
 4. 启动容器：`docker start zk`
 
+## 补充
+
+zookeeper在不同操作系统下的安装说明：[ConfigZookeeper.md](../demo-zookeeper/ConfigZookeepr.md)
+
+使用dubbo-admin监测注册的服务
+
 ## 运行步骤
 
 1. 进入服务提供方 `spring-boot-demo-dubbo-provider` 目录，运行 `SpringBootDemoDubboProviderApplication.java`
