@@ -6,8 +6,10 @@ import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.data.redis.core.BoundHashOperations;
+import org.springframework.data.redis.core.Cursor;
 import org.springframework.data.redis.core.HashOperations;
 import org.springframework.data.redis.core.RedisTemplate;
+import org.springframework.data.redis.core.ScanOptions;
 
 import javax.annotation.PostConstruct;
 import java.util.HashMap;
@@ -60,6 +62,9 @@ public class RedisTemplateHashTest extends SpringBootDemoUseRedisApplicationTest
         hashOps.putAll(key, hashMap);
 
         log.debug("key:{}, entries:{}", key, JSONUtil.toJsonStr(boundHashOps.entries()));
+
+        log.debug("清空测试存入的数据");
+        testDelete();
     }
 
 
@@ -97,6 +102,27 @@ public class RedisTemplateHashTest extends SpringBootDemoUseRedisApplicationTest
         // boundHashOps.entries();
         Map<String, String> entries = hashOps.entries(key);
         log.debug("key:{}, values:{}", key, JSONUtil.toJsonStr(entries));
+    }
+
+    /**
+     * 匹配获取键值对
+     */
+    @Test
+    public void testScan() {
+        log.debug("测试ScanOptions.NONE匹配所有键值对");
+        Cursor<Map.Entry<Object, Object>> scan = stringRedisTemplate.opsForHash().scan(key, ScanOptions.NONE);
+        scan.forEachRemaining(item -> {
+            log.debug("key:{}, value:{}", item.getKey(), item.getValue());
+        });
+
+        log.debug("测试ScanOptions.scanOptions().match精准匹配key");
+        Cursor<Map.Entry<Object,Object>> cursor = redisTemplate.opsForHash()
+            .scan(key,ScanOptions.scanOptions().match("smallkey").build());
+        while (cursor.hasNext()) {
+            Map.Entry<Object, Object> next = cursor.next();
+            log.debug("Key:{},value:{}", next.getKey(), next.getValue());
+        }
+
     }
 
     /**
